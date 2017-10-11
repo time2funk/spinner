@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include partials/header.ejs %>
+</head>
+
+<body>
+
+<wrapper>
+	<div class="vacab show" id='vocab-tool'>
+		<div class="panel-btn"> 
+			<span> > </span> 
+		</div>
+		<div class="vacab-body">
+			<form id='vocab'>
+				<label for='vocab-input'>vocabulary</label>
+				<input type="text" class="form-control" name="name" id='vocab-input' placeholder='name' required>
+				<input type="hidden" name="type" value="add-vocab">
+				<input type="submit" class="btn" name="action" value="save" >
+			</form>
+			<hr>
+			<form id='add-synonym'>
+				<label>add synonym 2 vocabulary</label>
+				<input type="text" class="form-control" name="word" id='synonym-word-input' placeholder='word' required>
+				<input type="text" class="form-control" name="synonym" id='synonym-synonym-input' placeholder='synonym' required>
+				<input type="hidden" name="type" value="add-synonym">
+				<input type="submit" class='btn' name="action" value="save" >
+			</form>
+			<hr>
+			<form id='stop-vocab'>
+				<label for='stop-vocab-input'>stop-word vocabulary</label>
+				<input type="text" class="form-control" name="name" id='stop-vocab-input' placeholder='name' required>
+				<select name='lib'>
+					<% lib.forEach( function(lib, i, arr){ %>
+						<option><%= lib %></option>
+					<% }); %>
+				</select>
+				<input type="hidden" name="type" value="add-stop-vocab">
+				<input type="submit" class='btn' name="action" value="save" >
+			</form>
+			<hr>
+			<form id='add-stop-word'>
+				<label>add stop-word 2 vocabulary</label>
+				<input type="text" class="form-control" name="word" id='stop-word-input' placeholder='word' required>
+				<select name='lib'>
+					<% lib.forEach( function(lib, i, arr){ %>
+						<option><%= lib %></option>
+					<% }); %>
+				</select>
+				<input type="hidden" name="type" value="add-stop-word">
+				<input type="submit" class='btn' name="action" value="save" >
+			</form>
+		</div>
+	</div>
+	<div class="spinner">
+		<h1><%= title %></h1>
+		<div class="container">
+			<section id='top'>
+				<div class="panel">
+					<!-- . . . -->
+				</div>
+				<textarea id='in-text'></textarea>
+			</section>
+			<section id='bot'>
+				<div class="panel">
+					<div class="wrapper">
+						<select class='vocab-select'>
+							<% lib.forEach( function(lib, i, arr){ %>
+								<option><%= lib %></option>
+							<% }); %>
+						</select>
+						<select class='stop-word-vocab-select'>
+							<% lib.forEach( function(lib, i, arr){ %>
+								<option><%= lib %></option>
+							<% }); %>
+						</select>
+						<button id="generate" class='btn btn-default'>generate</button>
+					</div>
+				</div>
+				<textarea id='out-text'></textarea>
+			</section>
+		</div>
+	</div>	
+</wrapper>
+
+	
+
+</body>
+</html>
+<!-- 
+CREATE TABLE WORDS(ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT NOT NULL);
+CREATE TABLE LIBS(ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT NOT NULL);
+CREATE TABLE RELATION(ID INTEGER PRIMARY KEY AUTOINCREMENT,	LIBID INTEGER NOT NULL, WORDID INTEGER NOT NULL, ASSOCIATION INTEGER NOT NULL, 	FOREIGN KEY(LIBID) REFERENCES LIBS(ID),	FOREIGN KEY(WORDID) REFERENCES WORD(ID)); 
+ 					
+<option>wordnet</option>
+<option>pyDictionary</option>
+<option>Vocabulary</option>
+<option>word2vec</option> 
+-->

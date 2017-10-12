@@ -6,12 +6,16 @@ $(()=>{
 
 	$('.panel-btn').on('click', ()=>{
 		var body = $('.vacab');
-		if( $(body).hasClass('show') ){
-			$(body).removeClass('show');
-		}else{
-			$(body).addClass('show');
-		}
+
+		$(body).hasClass('show')
+		?	$(body).removeClass('show')
+		:	$(body).addClass('show');
 		
+		// if( $(body).hasClass('show') ){
+		// 	$(body).removeClass('show');
+		// }else{
+		// 	$(body).addClass('show');
+		// }
 	});
 
 	$('#vocab-tool form').on('submit',(e)=>{
@@ -25,7 +29,8 @@ $(()=>{
 	        obj[item.name] = item.value;
 	    }
 	    alert(JSON.stringify(obj));
-	    var data = {obj};
+	    
+	    var data = obj;
 	    // var data = {data : JSON.stringify(obj)};
 	    // document.getElementById("demo").innerHTML = JSON.stringify(obj);
 
@@ -36,9 +41,10 @@ $(()=>{
 
 	$('#generate').on('click',()=>{
 		var _in = $('#in-text');
-		var data = {'text': _in.val()};
-		console.log(_in.val());
+		var lib = $('#active-vocab').val();
 
+		var data = {'text': _in.val(), 'type': "text-spin", 'lib': lib};
+		
 		ajax(data, (result)=>{
 			console.log(result);
 			$('#out-text').val(result.text);

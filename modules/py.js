@@ -19,13 +19,13 @@ module.exports.spinner = async function (obj, callback){
 					callback(result);
 				});
 				break;
-			case 'vocab': 
-				await vocab(obj.text, async (result)=>{
+			case 'xxx': 
+				await xxx(obj.text, async (result)=>{
 					callback(result);
 				});
 				break;
 			default: 
-				await vocab(obj.text, async (result)=>{
+				await wordnet(obj.text, async (result)=>{
 					callback(result);
 				});
 		}
@@ -35,7 +35,7 @@ module.exports.spinner = async function (obj, callback){
 	}
 }
 
-async function vocab(text, callback){ // !
+async function xxx(text, callback){ // !
 	try {
 		var pyshell =  new PythonShell('vocab.py');
 		var msg;

@@ -7,7 +7,7 @@
 <body>
 
 <wrapper>
-	<div class="vacab show" id='vocab-tool'>
+	<div class="vacab" id='vocab-tool'>
 		<div class="panel-btn"> 
 			<span> > </span> 
 		</div>
@@ -36,7 +36,7 @@
 					<% }); %>
 				</select>
 				<input type="hidden" name="type" value="add-stop-vocab">
-				<input type="submit" class='btn' name="action" value="save" >
+				<input type="submit" class='btn' name="action" value="save" disabled>
 			</form>
 			<hr>
 			<form id='add-stop-word'>
@@ -48,7 +48,7 @@
 					<% }); %>
 				</select>
 				<input type="hidden" name="type" value="add-stop-word">
-				<input type="submit" class='btn' name="action" value="save" >
+				<input type="submit" class='btn' name="action" value="save" disabled>
 			</form>
 		</div>
 	</div>
@@ -64,12 +64,12 @@
 			<section id='bot'>
 				<div class="panel">
 					<div class="wrapper">
-						<select class='vocab-select'>
+						<select class='vocab-select' id='active-vocab'>
 							<% lib.forEach( function(lib, i, arr){ %>
 								<option><%= lib %></option>
 							<% }); %>
 						</select>
-						<select class='stop-word-vocab-select'>
+						<select class='stop-word-vocab-select' id='active-stop-vocab' disabled>
 							<% lib.forEach( function(lib, i, arr){ %>
 								<option><%= lib %></option>
 							<% }); %>
@@ -88,7 +88,7 @@
 </body>
 </html>
 <!-- 
-CREATE TABLE WORDS(ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT NOT NULL);
+CREATE TABLE WORDS(ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT NOT NULL UNIQUE);
 CREATE TABLE LIBS(ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT NOT NULL);
 CREATE TABLE RELATION(ID INTEGER PRIMARY KEY AUTOINCREMENT,	LIBID INTEGER NOT NULL, WORDID INTEGER NOT NULL, ASSOCIATION INTEGER NOT NULL, 	FOREIGN KEY(LIBID) REFERENCES LIBS(ID),	FOREIGN KEY(WORDID) REFERENCES WORD(ID)); 
  					

@@ -26,10 +26,20 @@ section{
 select{
     height: 30px;
 }
+
 section textarea {
     width: 100%;
     resize: none;
-    height: calc(100% - 50px);
+    height: calc(100% - 110px);
+}
+button.btn{
+	padding-right: 30px;
+	padding-left: 30px;
+	width: 200px;
+	cursor: pointer;
+}
+button.btn:hover{
+	background: gray;
 }
 .panel{
 	height: 50px;
@@ -41,10 +51,10 @@ section textarea {
 	display:table-cell;
 	vertical-align: middle;
 }
-button#generate {
+/*button#generate {
     background: black;
     color: ghostwhite;
-}
+}*/
 div.spinner{
 	width:100%;
 	height: 100%;
@@ -52,7 +62,7 @@ div.spinner{
 div.spinner>div{
 	height: calc( 100% - 50px );
 }
-div.vacab{
+div.statistic{
 	z-index: 3;
 	position: fixed;
     top: 0;
@@ -62,10 +72,10 @@ div.vacab{
     outline: 1px gray solid;
     background: gray;
 }
-.vacab.show{
+.statistic.show{
 	right: 0;
 }
-.vacab-body {
+.statistic-body {
     margin: 0 auto;
     transform: translateY(-50%);
     padding: 10px;

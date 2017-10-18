@@ -5,50 +5,52 @@ $(()=>{
 	console.log('script');
 
 	$('.panel-btn').on('click', ()=>{
-		var body = $('.vacab');
+		console.log('panel btn');
+		var body = $('.statistic');
 
 		$(body).hasClass('show')
 		?	$(body).removeClass('show')
 		:	$(body).addClass('show');
-		
-		// if( $(body).hasClass('show') ){
-		// 	$(body).removeClass('show');
-		// }else{
-		// 	$(body).addClass('show');
-		// }
 	});
 
-	$('#vocab-tool form').on('submit',(e)=>{
-		if (e.preventDefault) e.preventDefault();
-		// console.log(e);
-	    // var elements = document.getElementById("myForm").elements;
-	    var elements = e.target.elements;
-	    var obj ={};
-	    for(var i = 0 ; i < elements.length ; i++){
-	        var item = elements.item(i);
-	        obj[item.name] = item.value;
-	    }
-	    alert(JSON.stringify(obj));
-	    
-	    var data = obj;
-	    // var data = {data : JSON.stringify(obj)};
-	    // document.getElementById("demo").innerHTML = JSON.stringify(obj);
+	$('#file-save-btn').on('click', ()=>{
+		console.log('file save');
+		var _out = $('#out-text').val();
+		if(!_out)
+			return;
 
-		ajax(data, (result)=>{
-			console.log(result);
-		});
+		// \!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		var title = 'text.txt'
+		download(_out, title, 'text' );
 	});
 
 	$('#generate').on('click',()=>{
+		console.log('generate');
 		var _in = $('#in-text');
-		var lib = $('#active-vocab').val();
+		var main_tag = $('#ws-tag');
+		var replase_tag = $('#ws-r-tag');
+		var data = {};
 
-		var data = {'text': _in.val(), 'type': "text-spin", 'lib': lib};
-		
+		if(!_in.val())
+			return;
+
+		$('#out-text').val('');
+		$('#ws-text-size').val('');
+
+		var text = _in.val().replace(/[{|}]*/, '');
+		data['text'] = text;
+
+		if( main_tag.val() )
+			data['m-tag'] = main_tag.val();
+		if( replase_tag.val() )
+			data['r-tag'] = replase_tag.val();
+
 		ajax(data, (result)=>{
 			console.log(result);
-			$('#out-text').val(result.text);
-			// _out.append(result);
+			var text = result.text;
+			text = text.replace(/\\n/g , "\n");
+			$('#out-text').val(text);
+			$('#ws-text-size').val(result.len);
 		});
 	});
 
@@ -66,3 +68,20 @@ function ajax(data, callback){
 	});
 }
 
+function download(data, filename, type) {
+    var file = new Blob([data], {type: type});
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var a = document.createElement("a"),
+                url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+        }, 0); 
+    }
+}

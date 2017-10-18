@@ -11,32 +11,19 @@ router.get('/', function(req, res) {
   			'xxx']
 	});
 });
+router.get('/form', function(req, res) {
+  	res.render('pups_form/form');
+});
 
 router.post('/', async (req, res) => {
 	var pack = req.body;
 	console.log(pack);
 
-	switch(pack.type){
-		case 'add-vocab':
-			await helper.addVocab(name);
-			break;
-		case 'add-synonym':
-			break;
-		// case 'add-stop-vocab':
-		// 	break;
-		// case 'add-stop-word':
-		// 	break;
-		case 'text-spin':
-			await py.spinner( {text: pack.text, lib: pack.lib}, (result)=>{
-				res.send({text: result});
-			});
-			break;
-		default:
-			res.send({error:'wrong type'});
-	}
-	// await py.spinner({text: req.body.text, type: "wordnet"}, (msg)=>{
-	// 	res.send({text: msg});
-	// });	
-	// res.send({data:'thanks'});
+	await py.spintax( {text: pack.text}, (spintax)=>{
+		helper.spinner2(spintax,pack, (result)=>{
+			res.send(result);
+		});
+	});
+	// res.send({msg: "holo"});
 });
 module.exports = router;

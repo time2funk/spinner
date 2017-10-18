@@ -4,7 +4,10 @@ from nltk.corpus import wordnet
 
 if __name__ == '__main__':
 	_input = sys.stdin.readlines()
-	text = _input[0]
+	text = ''
+	for p in _input: 
+		text += p
+	# text = _input
 
 	pattern = r"\s*[\W]*(\w+)[\W]*\s*"
 	regex = re.compile(pattern, 0)
@@ -25,11 +28,13 @@ if __name__ == '__main__':
 		else:
 			spintax = '{'
 			for x,us in enumerate(unique_syns):
-				spintax += us 
+				spintax += re.sub(r'_|-',' ',us) 
 				if( x == len(unique_syns)-1):
 					spintax += "}"
 				else:
 					spintax += "|"
 		text = text[0:match.start(1)+dif]+spintax+text[match.end(1)+dif:len(text)]
 		dif += len(spintax)-len(word)
-	print(text)
+	print([text])
+	# print([unicode(text, "utf-8")])
+	# print([text.encode('utf-8')])

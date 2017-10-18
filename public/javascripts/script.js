@@ -20,8 +20,36 @@ $(()=>{
 			return;
 
 		// \!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		var len = $('#ws-text-size').val();
+		var keylen = $('#ws-key-size').val();
+		var key = $('#ws-key').val();
+		var rkey = $('#ws-rkey').val();
+
 		var title = 'text.txt'
-		download(_out, title, 'text' );
+		var text = '';
+
+		if( key )
+			text += 'Key: \"'+key+'\" \n';
+		if( rkey )
+			text += 'Replase Key: \"'+rkey+'\" \n';
+		if( keylen )
+			text += 'Key Percentage: '+keylen+' \n';
+		if( len )
+			text += 'Tottal length: '+len+' words\n';
+
+		if( $('#ws-analiza').html() ){
+			text += $('#ws-analiza').html();
+		}
+		// {
+		// 	text += 'First 10 words statistic:'
+		// 	for(var i=0; i<words.length; i++){
+		// 		if(i==10)
+		// 			break;
+		// 		text += '\t '+words[i].key+' ['+ words.times +'] '+words.percentage+"%";
+		// 	}
+		// }
+		text += '\n'+_out;
+		download( text, title, 'text' );
 	});
 
 	$('#generate').on('click',()=>{
@@ -36,6 +64,9 @@ $(()=>{
 
 		$('#out-text').val('');
 		$('#ws-text-size').val('');
+		$('#ws-key').val('');
+		$('#ws-rkey').val('');
+		$('#ws-analiza-body').html('');
 
 		var text = _in.val().replace(/[{|}]*/, '');
 		data['text'] = text;
@@ -47,10 +78,31 @@ $(()=>{
 
 		ajax(data, (result)=>{
 			console.log(result);
+
 			var text = result.text;
 			text = text.replace(/\\n/g , "\n");
 			$('#out-text').val(text);
+
 			$('#ws-text-size').val(result.len);
+
+			if(result.keylen)
+				$('#ws-key-size').val(result.keylen);
+			if(result.key)
+				$('#ws-key').val(result.key);
+			if(result.rkey)
+				$('#ws-rkey').val(result.rkey);
+
+			for(var i=0; i<result.words.length; i++){
+				var el = '<tr>';
+
+				for(var key in result.words[i]){
+					el += '<td>';
+					el += result.words[i][''+key];
+					el += '</td>';
+				}
+				el += '/<tr>';
+				$('#ws-analiza-body').append(el);
+			}
 		});
 	});
 

@@ -12,8 +12,30 @@
 			<span> > </span> 
 		</div>
 		<div class="statistic-body">
+			<label for='ws-key'>Key</label>
+			<input id='ws-key' class="form-control" type="text" name="text-size" readonly>
+			<label for='ws-rkey'>Replase Key</label>
+			<input id='ws-rkey' class="form-control" type="text" name="text-size" readonly>
+			<label for='ws-key-size'>Key Percentage</label>
+			<input id='ws-key-size' class="form-control" type="text" name="key-size" readonly>
 			<label for='ws-text-size'>Tottal words</label>
 			<input id='ws-text-size' class="form-control" type="text" name="text-size" readonly>
+			<hr>
+			<div id='ws-analiza'>
+				<table>
+					<thead>
+						<tr>
+							<th>Word</th>
+							<th>Timnes</th>
+							<th>Percentage</th>
+						</tr>
+					</thead>
+					<tbody id='ws-analiza-body'>
+						
+					</tbody>
+				</table>
+			</div>
+			<hr>
 		</div>
 	</div>
 	<div class="spinner">
@@ -22,9 +44,9 @@
 			<section id='top'>
 				<div class="panel">
 					<div class="wrapper">
-						<label>Main tag</label>
+						<label>Main Key</label>
 						<input type="text" name="tag" id='ws-tag'>
-						<label>Replase tag</label>
+						<label>Replase Key</label>
 						<input type="text" name="rtag" id='ws-r-tag'>
 					</div>
 				</div>

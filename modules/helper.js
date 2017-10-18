@@ -6,15 +6,15 @@ module.exports.spinner2 = async function (spintax, pack, callback){
 	var rkey = pack['r-tag'];
 	spintax = spintax.substring(2, spintax.length-3);
 
-	var result, words, length;
+	var result, words, length, keylen;
 	if(key){
 		if(rkey){
-			[result, words, length] = await keyResult(spintax, key, rkey);
-			await callback({text:result, len: length, words: words, key:key, rkey:key  });
+			[result, words, length, keylen] = await keyResult(spintax, key, rkey);
+			await callback({text:result, len: length, words: words, key:key, rkey:rkey, keylen:keylen  });
 		}
 		else{
-			[result, words, length] = await keyResult(spintax, key);
-			await callback({text:result, len: length, words: words, key:key  });
+			[result, words, length, keylen] = await keyResult(spintax, key);
+			await callback({text:result, len: length, words: words, key:key, keylen:keylen   });
 		}
 	}else{
 		[result, words, length] = await randomResult(spintax);
@@ -38,6 +38,7 @@ function keyResult(spintax, key, rkey){
 	var words = {};
 	var result = '';
 	var iterator = 0;
+	var keylen = 0;
 	while ( foo = regexp.exec(spintax)) {
 
 		result += spintax.substring(last_pos,foo.index);
@@ -48,8 +49,9 @@ function keyResult(spintax, key, rkey){
 		for(var i=0; i<tmp.length; i++){
 
 			var item = tmp[i].match(key);
-			console.log(item);
+			// console.log(item);
 			if(item){
+				keylen++;
 				if(rkey)
 					syn = rkey;
 				else
@@ -76,11 +78,11 @@ function keyResult(spintax, key, rkey){
 	result += spintax.substring(last_pos,spintax.length-1);
 	
 	wordsSorted = sortObject2(words);
-
-	for(var i=0; i>wordsSorted.length; i++){
-		wordsSorted[i]['percentage'] = iterator/100*wordsSorted[i]['times']
+	for(var i=0; i<wordsSorted.length; i++){
+		wordsSorted[i]['percentage'] = (iterator/100*wordsSorted[i]['times']).toFixed(2);
 	}
-	return [result, wordsSorted, iterator];
+	keylen = iterator/100*keylen;
+	return [result, wordsSorted, iterator, keylen];
 }
 function randomResult(spintax){
 	var regexp = /{[\w\s|.]*}/ig;
@@ -104,16 +106,14 @@ function randomResult(spintax){
 		}else{
 			words[syn] = 1;
 		}
-
 		last_pos = regexp.lastIndex;
 		iterator++;
 	}
 	result += spintax.substring(last_pos,spintax.length-1);
 	
-	// wordsSorted = sortObject(words);
 	wordsSorted = sortObject2(words);
 	for(var i=0; i<wordsSorted.length; i++){
-		wordsSorted[i]['percentage'] = iterator/100*wordsSorted[i]['times']
+		wordsSorted[i]['percentage'] = (iterator/100*wordsSorted[i]['times']).toFixed(2);
 	}
 	return [result, wordsSorted, iterator];
 }

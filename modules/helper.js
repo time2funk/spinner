@@ -22,7 +22,7 @@ module.exports.spinner2 = async function (spintax, pack, callback){
 	}
 }
 function getSpintaxLength(spintax){
-	var regexp = /{[\w\s|.]*}/ig;
+	var regexp = /{[\w\s|\\/`.,'"]*}/ig;
 	var iterator = 0;
 	var foo;
 	while ( foo = regexp.exec(spintax)) {
@@ -32,7 +32,8 @@ function getSpintaxLength(spintax){
 	return iterator;
 }
 function keyResult(spintax, key, rkey){
-	var regexp = /{[\w\s|.]*}/ig;
+	// var regexp = /{[\w\s|.]*}/ig;
+	var regexp = /{[\w\s|\\/`.,'"]*}/ig;
 	var foo;
 	var last_pos = 0;
 	var words = {};
@@ -79,13 +80,15 @@ function keyResult(spintax, key, rkey){
 	
 	wordsSorted = sortObject2(words);
 	for(var i=0; i<wordsSorted.length; i++){
-		wordsSorted[i]['percentage'] = (iterator/100*wordsSorted[i]['times']).toFixed(2);
+		// console.log(iterator+ " " +100+ " " +wordsSorted[i]['times'] );
+		wordsSorted[i]['percentage'] = (100*wordsSorted[i]['times']/iterator).toFixed(2);
 	}
-	keylen = iterator/100*keylen;
+	keylen = 100*keylen/iterator;
 	return [result, wordsSorted, iterator, keylen];
 }
 function randomResult(spintax){
-	var regexp = /{[\w\s|.]*}/ig;
+	// var regexp = /{[\w\s|.]*}/ig;
+	var regexp = /{[\w\s|\\/`.,'"]*}/ig;
 	var foo;
 	var last_pos = 0;
 	var words = {};

@@ -66,6 +66,7 @@ $(()=>{
 		$('#ws-text-size').val('');
 		$('#ws-key').val('');
 		$('#ws-rkey').val('');
+		$('#ws-key-size').val('');
 		$('#ws-analiza-body').html('');
 
 		var text = _in.val().replace(/[{|}]*/, '');
